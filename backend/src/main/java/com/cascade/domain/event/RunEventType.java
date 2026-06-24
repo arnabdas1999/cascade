@@ -1,0 +1,15 @@
+package com.cascade.domain.event;
+
+public enum RunEventType {
+    RUN_STARTED,
+    RUN_COMPLETED,
+    RUN_FAILED,
+    STEP_STARTED,
+    STEP_COMPLETED,
+    STEP_FAILED,
+    STEP_RETRYING,
+    RUN_COMPENSATING,
+    STEP_COMPENSATING,
+    STEP_COMPENSATED,
+    RUN_COMPENSATED
+}
