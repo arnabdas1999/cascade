@@ -2,17 +2,16 @@
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
 
-# Copy Maven wrapper and pom first for layer caching
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
+# Install Maven
+RUN apk add --no-cache maven
 
-# Download dependencies (cached unless pom.xml changes)
-RUN ./mvnw dependency:go-offline -q
+# Copy pom first for dependency layer caching
+COPY pom.xml ./
+RUN mvn dependency:go-offline -q
 
 # Copy source and build (skip integration tests that need Docker)
 COPY src/ src/
-RUN ./mvnw package -DskipTests -q
+RUN mvn package -DskipTests -q
 
 # ---- Runtime stage ----
 FROM eclipse-temurin:21-jre-alpine AS runtime
